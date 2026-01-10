@@ -1,19 +1,48 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block title %}All-in-One Shift CRM — Shift Manager{% endblock %}
 {% block content %}
-<section class="relative overflow-hidden">
-  <div class="max-w-7xl mx-auto px-6 py-20 text-center">
-    <h1 class="text-4xl sm:text-5xl font-extrabold tracking-tight text-gray-900">All-in-One Shift CRM for Teams</h1>
-    <p class="mt-4 text-lg text-gray-600 max-w-2xl mx-auto">Manage shifts, approvals and coverage in one clean interface. See who is on leave and who is available to cover.</p>
+<section class="relative bg-gradient-to-b from-orange-50 via-white to-white overflow-hidden">
+  <div class="max-w-7xl mx-auto px-6 lg:px-8 py-24">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
+      <div class="text-center lg:text-left">
+        <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-gray-900">All-in-One CRM Software for Teams</h1>
+        <p class="mt-6 text-lg text-gray-600 max-w-xl mx-auto lg:mx-0">Manage shifts, approvals, and coverage in one clean interface—see who is on leave, who can cover, and assign relievers in seconds.</p>
 
-    <div class="mt-8 flex justify-center gap-4">
-      <a href="{% url 'users:register' %}" class="inline-flex items-center px-6 py-3 bg-orange-500 text-white rounded-lg shadow hover:bg-orange-600">Create account</a>
-      <a href="{% url 'users:login' %}" class="inline-flex items-center px-6 py-3 border border-gray-300 rounded-lg bg-white text-gray-800 hover:bg-gray-50">Log in</a>
-    </div>
+        <div class="mt-8 flex justify-center lg:justify-start gap-4">
+          <a href="{% url 'users:register' %}" class="inline-flex items-center px-6 py-3 bg-orange-500 text-white rounded-full shadow-lg hover:bg-orange-600">Start your free trial</a>
+          <a href="{% url 'users:login' %}" class="inline-flex items-center px-5 py-3 border border-gray-300 rounded-full bg-white text-gray-800 hover:bg-gray-50">Log in</a>
+        </div>
 
-    <div class="mt-12">
-      <img src="{% static 'images/hero-placeholder.svg' %}" alt="product screenshot" class="mx-auto w-full max-w-3xl rounded-lg shadow-lg" />
+        <div class="mt-8 text-sm text-gray-500">
+          <span class="mr-4">Trusted by teams</span>
+          <span class="px-3 py-1 bg-white rounded-full shadow text-orange-600 font-semibold">Over 100+ 5 star reviews</span>
+        </div>
+      </div>
+
+      <div class="relative">
+        <div class="absolute -left-12 -top-12 w-56 h-56 bg-orange-200 rounded-full opacity-60 blur-3xl transform rotate-12"></div>
+        <div class="absolute -right-12 -bottom-12 w-44 h-44 bg-orange-300 rounded-full opacity-60 blur-2xl"></div>
+
+        <div class="mx-auto w-full max-w-3xl rounded-xl shadow-2xl overflow-hidden ring-1 ring-black/5">
+          <img src="{% static 'images/hero-placeholder.svg' %}" alt="product screenshot" class="w-full h-auto object-cover" />
+        </div>
+
+        <div class="mt-6 flex justify-center lg:justify-end gap-4">
+          <div class="bg-white px-4 py-3 rounded-lg shadow text-sm text-gray-800">Sales performance <strong class="ml-2 text-orange-600">92.6%</strong></div>
+          <div class="bg-white px-4 py-3 rounded-lg shadow text-sm text-gray-800">Over 100+ 5 star reviews</div>
+        </div>
+      </div>
     </div>
   </div>
+
+  <div class="py-12">
+    <div class="max-w-4xl mx-auto text-center">
+      <h2 class="text-2xl font-semibold text-gray-900">We help teams reduce complexity and build stronger connections</h2>
+      <p class="mt-4 text-gray-600">Simplify leave requests, approvals and reliever assignments with an intuitive workflow built for line managers and staff.</p>
+    </div>
+  </div>
+  </div>
 </section>
+
 {% endblock %}

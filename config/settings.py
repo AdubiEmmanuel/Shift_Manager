@@ -1,5 +1,6 @@
 import os
 from pathlib import Path
+from django.urls import reverse_lazy
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -82,3 +83,6 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # Use the custom user model from the users app
 AUTH_USER_MODEL = "users.User"
+# Redirect users to the dashboard after successful login (use named URL)
+LOGIN_REDIRECT_URL = reverse_lazy("users:dashboard")
+

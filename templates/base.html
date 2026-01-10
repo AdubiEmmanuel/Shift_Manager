@@ -5,6 +5,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>{% block title %}Shift Manager{% endblock %}</title>
+    <!-- Tailwind CDN fallback for development; local build (static/css/tailwind.css) will override -->
+    <script src="https://cdn.tailwindcss.com"></script>
     <link href="{% static 'css/tailwind.css' %}" rel="stylesheet">
   </head>
   <body class="min-h-screen bg-gray-100 text-gray-900">
@@ -23,5 +25,23 @@
 
       {% block content %}{% endblock %}
     </main>
+      <script>
+        // Mobile menu toggle
+        (function(){
+          var btn = document.getElementById('mobile-menu-button');
+          var menu = document.getElementById('mobile-menu');
+          if(!btn || !menu) return;
+          btn.addEventListener('click', function(){
+            var isHidden = menu.classList.contains('hidden');
+            if(isHidden){
+              menu.classList.remove('hidden');
+              btn.setAttribute('aria-expanded', 'true');
+            } else {
+              menu.classList.add('hidden');
+              btn.setAttribute('aria-expanded', 'false');
+            }
+          });
+        })();
+      </script>
   </body>
 </html>

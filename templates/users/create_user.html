@@ -1,0 +1,23 @@
+{% extends 'dashboards/base_dashboard.html' %}
+{% block dashboard_content %}
+<div class="p-6">
+  <h2 class="text-2xl font-semibold mb-4">Create User</h2>
+  <div class="bg-white rounded shadow p-4 max-w-md">
+    <form method="post" class="space-y-4">
+      {% csrf_token %}
+      {% for field in form.visible_fields %}
+        <div>
+          <label class="block text-sm font-medium text-gray-700">{{ field.label }}</label>
+          {{ field }}
+          {% for err in field.errors %}
+            <p class="text-xs text-red-600">{{ err }}</p>
+          {% endfor %}
+        </div>
+      {% endfor %}
+      <div>
+        <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded">Create</button>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

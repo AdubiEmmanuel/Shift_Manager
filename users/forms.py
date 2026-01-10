@@ -32,10 +32,24 @@ class UserRegistrationForm(UserCreationForm):
             raise forms.ValidationError("A user with that email already exists.")
         return email
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        base_class = "mt-1 block w-full rounded-md border-gray-300 shadow-sm"
+        for name, field in self.fields.items():
+            existing = field.widget.attrs.get("class", "")
+            field.widget.attrs["class"] = (existing + " " + base_class).strip()
+
 
 class UserLoginForm(AuthenticationForm):
     username = forms.CharField(max_length=150, widget=forms.TextInput(attrs={"autofocus": True}))
     password = forms.CharField(label="Password", strip=False, widget=forms.PasswordInput)
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        base_class = "mt-1 block w-full rounded-md border-gray-300 shadow-sm"
+        for name, field in self.fields.items():
+            existing = field.widget.attrs.get("class", "")
+            field.widget.attrs["class"] = (existing + " " + base_class).strip()
 
 
 class UserUpdateForm(forms.ModelForm):
@@ -52,3 +66,10 @@ class UserUpdateForm(forms.ModelForm):
         if email and qs.exists():
             raise forms.ValidationError("A user with that email already exists.")
         return email
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        base_class = "mt-1 block w-full rounded-md border-gray-300 shadow-sm"
+        for name, field in self.fields.items():
+            existing = field.widget.attrs.get("class", "")
+            field.widget.attrs["class"] = (existing + " " + base_class).strip()

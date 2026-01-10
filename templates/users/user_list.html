@@ -1,0 +1,42 @@
+{% extends 'dashboards/base_dashboard.html' %}
+{% block dashboard_content %}
+<div class="p-6">
+  <div class="flex items-center justify-between mb-4">
+    <h2 class="text-2xl font-semibold">Users</h2>
+    <div class="flex items-center gap-2">
+      <a href="{% url 'users:create_user' %}" class="px-3 py-2 bg-indigo-600 text-white rounded">Create User</a>
+      <a href="{% url 'users:dashboard' %}" class="px-3 py-2 bg-gray-200 rounded">Back</a>
+    </div>
+  </div>
+
+  <div class="bg-white rounded shadow overflow-x-auto">
+    <table class="min-w-full divide-y divide-gray-200">
+      <thead class="bg-gray-50">
+        <tr>
+          <th class="px-4 py-2 text-left">Username</th>
+          <th class="px-4 py-2 text-left">Name</th>
+          <th class="px-4 py-2 text-left">Role</th>
+          <th class="px-4 py-2 text-left">Line Manager</th>
+          <th class="px-4 py-2 text-left">Actions</th>
+        </tr>
+      </thead>
+      <tbody class="bg-white divide-y divide-gray-100">
+        {% for u in users %}
+        <tr>
+          <td class="px-4 py-2">{{ u.username }}</td>
+          <td class="px-4 py-2">{{ u.get_full_name }}</td>
+          <td class="px-4 py-2">{{ u.get_role_display }}</td>
+          <td class="px-4 py-2">{% if u.line_manager %}{{ u.line_manager.get_full_name }}{% else %}-{% endif %}</td>
+          <td class="px-4 py-2">
+            <a href="{% url 'users:user_edit' u.pk %}" class="text-blue-600 hover:underline mr-3">Edit</a>
+            <a href="{% url 'users:user_delete' u.pk %}" class="text-red-600 hover:underline">Delete</a>
+          </td>
+        </tr>
+        {% empty %}
+        <tr><td class="px-4 py-2" colspan="5">No users found.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}
