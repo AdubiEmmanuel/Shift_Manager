@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block title %}All-in-One Shift CRM — Shift Manager{% endblock %}
+{% block content %}
+<section class="relative overflow-hidden">
+  <div class="max-w-7xl mx-auto px-6 py-20 text-center">
+    <h1 class="text-4xl sm:text-5xl font-extrabold tracking-tight text-gray-900">All-in-One Shift CRM for Teams</h1>
+    <p class="mt-4 text-lg text-gray-600 max-w-2xl mx-auto">Manage shifts, approvals and coverage in one clean interface. See who is on leave and who is available to cover.</p>
+
+    <div class="mt-8 flex justify-center gap-4">
+      <a href="{% url 'users:register' %}" class="inline-flex items-center px-6 py-3 bg-orange-500 text-white rounded-lg shadow hover:bg-orange-600">Create account</a>
+      <a href="{% url 'users:login' %}" class="inline-flex items-center px-6 py-3 border border-gray-300 rounded-lg bg-white text-gray-800 hover:bg-gray-50">Log in</a>
+    </div>
+
+    <div class="mt-12">
+      <img src="{% static 'images/hero-placeholder.svg' %}" alt="product screenshot" class="mx-auto w-full max-w-3xl rounded-lg shadow-lg" />
+    </div>
+  </div>
+</section>
+{% endblock %}

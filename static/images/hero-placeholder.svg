@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="g" x1="0" x2="1">
+      <stop offset="0%" stop-color="#ffedd5" />
+      <stop offset="100%" stop-color="#ffd7cc" />
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="600" fill="url(#g)" />
+  <g fill="#111827" font-family="Inter, sans-serif">
+    <text x="50%" y="45%" font-size="48" text-anchor="middle" font-weight="700">Shift Manager</text>
+    <text x="50%" y="55%" font-size="20" text-anchor="middle" opacity="0.8">A simple placeholder hero illustration</text>
+  </g>
+</svg>

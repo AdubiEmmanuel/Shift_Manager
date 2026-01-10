@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block title %}Leave Requests — Shift Manager{% endblock %}
+{% block content %}
+<div class="bg-white p-6 rounded shadow">
+  <div class="flex items-center justify-between mb-4">
+    <h1 class="text-2xl font-semibold">Leave Requests</h1>
+    <a href="{% url 'shifts:leave_create' %}" class="px-3 py-2 bg-blue-600 text-white rounded">New Request</a>
+  </div>
+
+  <div class="space-y-4">
+    {% for leave in leave_requests %}
+      <div class="p-4 border rounded flex justify-between items-start">
+        <div>
+          <div class="text-sm text-gray-600">{{ leave.requester.get_full_name|default:leave.requester.username }} • {{ leave.created_at|date:"Y-m-d H:i" }}</div>
+          <div class="font-medium">{{ leave.start_datetime|date:"Y-m-d H:i" }} → {{ leave.end_datetime|date:"Y-m-d H:i" }}</div>
+          <div class="text-sm text-gray-700 mt-2">{{ leave.reason|linebreaksbr }}</div>
+          <div class="text-xs mt-2">Status: <span class="font-semibold">{{ leave.get_status_display }}</span></div>
+        </div>
+        <div class="flex flex-col items-end space-y-2">
+          {% if user.is_super_admin or (user.is_line_manager and leave.requester.line_manager_id == user.id) %}
+            <form method="post" action="{% url 'shifts:leave_approve' leave.pk %}">
+              {% csrf_token %}
+              <div class="flex space-x-2">
+                <button name="action" value="approve" type="submit" class="px-3 py-1 bg-green-600 text-white rounded">Approve</button>
+                <button name="action" value="reject" type="submit" class="px-3 py-1 bg-red-600 text-white rounded">Reject</button>
+              </div>
+            </form>
+          {% endif %}
+          {% if leave.status == 'approved' and leave.reliever_assignment %}
+            <div class="text-sm">Reliever: {{ leave.reliever_assignment.reliever.get_full_name|default:leave.reliever_assignment.reliever.username }}</div>
+          {% endif %}
+        </div>
+      </div>
+    {% empty %}
+      <div class="p-4 text-gray-600">No leave requests found.</div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}
