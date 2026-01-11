@@ -1,47 +1,56 @@
 {% extends 'dashboards/base_dashboard.html' %}
 {% block dashboard_content %}
-<div class="p-6">
-  <h2 class="text-2xl font-semibold mb-4">My Dashboard</h2>
+<div class="p-4 lg:p-6">
+  <div class="flex items-center justify-between mb-4">
+    <h2 class="text-2xl font-semibold">My Dashboard</h2>
+    <a href="/app/leaves/new/" class="px-3 py-2 bg-orange-600 text-white rounded text-sm">Request Leave</a>
+  </div>
 
-  <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-    <div class="md:col-span-2 bg-white rounded shadow p-4">
-      <h3 class="font-semibold mb-2">My Leaves</h3>
-      <ul class="space-y-3">
-        {% for l in my_leaves %}
-          <li class="p-3 border rounded">
-            <div class="font-medium">{{ l.start_datetime|date:'Y-m-d H:i' }} → {{ l.end_datetime|date:'Y-m-d H:i' }}</div>
-            <div class="text-sm text-gray-600">{{ l.get_status_display }}</div>
-            <div class="text-sm mt-2">{{ l.reason|linebreaksbr }}</div>
-          </li>
-        {% empty %}
-          <li class="text-gray-600">You have no leave requests.</li>
-        {% endfor %}
-      </ul>
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+    <div class="lg:col-span-2 space-y-4">
+      <div class="bg-white rounded shadow p-4">
+        <h3 class="font-semibold mb-3">My Leaves</h3>
+        <ul class="space-y-3">
+          {% for l in my_leaves %}
+            <li class="p-3 border rounded">
+              <div class="font-medium">{{ l.start_datetime|date:'Y-m-d H:i' }} → {{ l.end_datetime|date:'Y-m-d H:i' }}</div>
+              <div class="text-sm text-gray-600">{{ l.get_status_display }}</div>
+              <div class="text-sm mt-2">{{ l.reason|linebreaksbr }}</div>
+            </li>
+          {% empty %}
+            <li class="text-gray-600">You have no leave requests.</li>
+          {% endfor %}
+        </ul>
+      </div>
     </div>
 
-    <div class="bg-white rounded shadow p-4">
-      <h3 class="font-semibold mb-2">Contacts</h3>
-      <div class="text-sm text-gray-700 mb-3">
-        <div class="font-medium">Line Manager</div>
-        {% if line_manager %}
-          <div>{{ line_manager.get_full_name|default:line_manager.username }}</div>
-          <div class="text-xs text-gray-600">{{ line_manager.email }} • {{ line_manager.phone }}</div>
-        {% else %}
-          <div class="text-gray-600">No line manager assigned.</div>
-        {% endif %}
+    <div class="space-y-4">
+      <div class="bg-white rounded shadow p-4">
+        <h3 class="font-semibold mb-2">Contacts</h3>
+        <div class="text-sm text-gray-700 mb-3">
+          <div class="font-medium">Line Manager</div>
+          {% if line_manager %}
+            <div>{{ line_manager.get_full_name|default:line_manager.username }}</div>
+            <div class="text-xs text-gray-600">{{ line_manager.email }} • {{ line_manager.phone }}</div>
+          {% else %}
+            <div class="text-gray-600">No line manager assigned.</div>
+          {% endif %}
+        </div>
+
+        <h4 class="font-semibold mb-2">Colleagues</h4>
+        <ul class="text-sm space-y-2">
+          {% for c in colleagues %}
+            <li>
+              <div class="font-medium">{{ c.get_full_name|default:c.username }}</div>
+              <div class="text-xs text-gray-600">{{ c.email }} • {{ c.phone }}</div>
+            </li>
+          {% empty %}
+            <li class="text-gray-600">No colleagues found.</li>
+          {% endfor %}
+        </ul>
       </div>
 
-      <h4 class="font-semibold mb-2">Colleagues</h4>
-      <ul class="text-sm space-y-2">
-        {% for c in colleagues %}
-          <li>
-            <div class="font-medium">{{ c.get_full_name|default:c.username }}</div>
-            <div class="text-xs text-gray-600">{{ c.email }} • {{ c.phone }}</div>
-          </li>
-        {% empty %}
-          <li class="text-gray-600">No colleagues found.</li>
-        {% endfor %}
-      </ul>
+      {% include 'components/dashboard_transactions.html' %}
     </div>
   </div>
 </div>

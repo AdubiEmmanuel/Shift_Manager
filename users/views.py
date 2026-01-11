@@ -9,6 +9,7 @@ from django.shortcuts import HttpResponse
 
 from shifts.models import LeaveRequest
 from .models import User
+from django.utils import timezone
 
 from django.contrib.auth.decorators import user_passes_test
 from django.urls import reverse
@@ -62,11 +63,17 @@ def superadmin_dashboard(request):
         months.append(label)
         counts.append(LeaveRequest.objects.filter(created_at__gte=start, created_at__lt=end).count())
 
+    # upcoming leaves (starting today or in future)
+    upcoming_leaves_count = LeaveRequest.objects.filter(start_datetime__gte=timezone.now()).count()
+    recent_leaves = LeaveRequest.objects.order_by("-created_at")[:6]
+
     context = {
         "total_users": total_users,
         "total_leaves": total_leaves,
         "pending_leaves": pending_leaves,
         "approved_leaves": approved_leaves,
+        "upcoming_leaves_count": upcoming_leaves_count,
+        "recent_leaves": recent_leaves,
         "chart_months": months,
         "chart_counts": counts,
         "create_user_form": UserRegistrationForm(),
@@ -153,8 +160,22 @@ def user_delete_view(request, pk):
 @login_required
 def line_manager_dashboard(request):
     team = User.objects.filter(line_manager=request.user)
-    team_leaves = LeaveRequest.objects.filter(requester__in=team).order_by("-created_at")[:10]
-    context = {"team": team, "team_leaves": team_leaves}
+    team_leaves = LeaveRequest.objects.filter(requester__in=team).order_by("-created_at")
+    # counts for the team
+    team_total = team_leaves.count()
+    team_pending = team_leaves.filter(status=LeaveRequest.STATUS_PENDING).count()
+    team_approved = team_leaves.filter(status=LeaveRequest.STATUS_APPROVED).count()
+    upcoming_leaves_count = team_leaves.filter(start_datetime__gte=timezone.now()).count()
+    recent_leaves = team_leaves[:6]
+    context = {
+        "team": team,
+        "team_leaves": team_leaves[:10],
+        "total_leaves": team_total,
+        "pending_leaves": team_pending,
+        "approved_leaves": team_approved,
+        "upcoming_leaves_count": upcoming_leaves_count,
+        "recent_leaves": recent_leaves,
+    }
     return render(request, "dashboards/manager_dashboard.html", context)
 
 
@@ -164,7 +185,22 @@ def staff_dashboard(request):
     # show contacts (line manager and colleagues under same manager)
     line_manager = request.user.line_manager
     colleagues = User.objects.filter(line_manager=line_manager).exclude(pk=request.user.pk) if line_manager else User.objects.none()
-    context = {"my_leaves": my_leaves, "line_manager": line_manager, "colleagues": colleagues}
+    # user-specific counts
+    total_leaves = my_leaves.count()
+    pending_leaves = my_leaves.filter(status=LeaveRequest.STATUS_PENDING).count()
+    approved_leaves = my_leaves.filter(status=LeaveRequest.STATUS_APPROVED).count()
+    upcoming_leaves_count = my_leaves.filter(start_datetime__gte=timezone.now()).count()
+    recent_leaves = my_leaves[:6]
+    context = {
+        "my_leaves": my_leaves,
+        "line_manager": line_manager,
+        "colleagues": colleagues,
+        "total_leaves": total_leaves,
+        "pending_leaves": pending_leaves,
+        "approved_leaves": approved_leaves,
+        "upcoming_leaves_count": upcoming_leaves_count,
+        "recent_leaves": recent_leaves,
+    }
     return render(request, "dashboards/staff_dashboard.html", context)
 
 

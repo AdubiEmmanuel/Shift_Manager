@@ -1,0 +1,25 @@
+{% load static %}
+<div class="bg-white rounded-lg shadow p-4">
+  <div class="flex items-start justify-between gap-4">
+    <div class="flex-1">
+      <h1 class="text-xl font-semibold">Overview — Leaves & Shifts</h1>
+      <p class="text-sm text-gray-600 mt-1">A focused view on leave requests, approvals and upcoming shifts.</p>
+    </div>
+
+    <div class="flex items-center gap-3">
+      <button class="hidden sm:inline-flex items-center px-3 py-2 bg-white border rounded text-sm shadow-sm hover:bg-gray-50">
+        <svg class="w-4 h-4 mr-2 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h3l2 3h8a1 1 0 011 1v11a1 1 0 01-1 1H6a1 1 0 01-1-1V4z"></path></svg>
+        Export
+      </button>
+      <div class="flex items-center space-x-2">
+        <div class="text-right">
+          <div class="text-xs text-gray-500">Last 30 days</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+    {% include 'components/dashboard_cards.html' %}
+  </div>
+</div>

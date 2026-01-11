@@ -1,0 +1,20 @@
+<!-- Leave & Shift focused KPI cards -->
+<div class="p-4 bg-white rounded-lg shadow-sm">
+  <div class="text-xs text-gray-500">Total Leave Requests</div>
+  <div class="text-lg font-semibold">{{ total_leaves|default:'0' }}</div>
+</div>
+
+<div class="p-4 bg-white rounded-lg shadow-sm">
+  <div class="text-xs text-gray-500">Pending Leaves</div>
+  <div class="text-lg font-semibold text-yellow-600">{{ pending_leaves|default:'0' }}</div>
+</div>
+
+<div class="p-4 bg-white rounded-lg shadow-sm">
+  <div class="text-xs text-gray-500">Approved Leaves</div>
+  <div class="text-lg font-semibold text-green-600">{{ approved_leaves|default:'0' }}</div>
+</div>
+
+<div class="p-4 bg-white rounded-lg shadow-sm">
+  <div class="text-xs text-gray-500">Upcoming Leaves</div>
+  <div class="text-lg font-semibold">{{ upcoming_leaves_count|default:'0' }}</div>
+</div>

@@ -1,0 +1,31 @@
+<div class="bg-white rounded-lg shadow p-4">
+  <div class="flex items-center justify-between mb-3">
+    <h3 class="text-sm font-semibold">Recent Leave Requests</h3>
+    <a href="{% url 'shifts:leave_list' %}" class="text-xs text-blue-600">See All</a>
+  </div>
+  <ul class="space-y-3 text-sm">
+    {% if recent_leaves %}
+      {% for l in recent_leaves %}
+        <li class="flex items-center justify-between p-2 border rounded">
+          <div>
+            <div class="font-medium">{{ l.requester.get_full_name|default:l.requester.username }}</div>
+            <div class="text-xs text-gray-500">{{ l.start_datetime|date:'Y-m-d' }} → {{ l.end_datetime|date:'Y-m-d' }}</div>
+          </div>
+          <div class="text-sm">
+            {% if l.status == 'pending' %}
+              <span class="px-2 py-1 rounded text-xs bg-yellow-100 text-yellow-700">{{ l.get_status_display }}</span>
+            {% elif l.status == 'approved' %}
+              <span class="px-2 py-1 rounded text-xs bg-green-100 text-green-700">{{ l.get_status_display }}</span>
+            {% elif l.status == 'rejected' %}
+              <span class="px-2 py-1 rounded text-xs bg-red-100 text-red-700">{{ l.get_status_display }}</span>
+            {% else %}
+              <span class="px-2 py-1 rounded text-xs bg-gray-100 text-gray-700">{{ l.get_status_display }}</span>
+            {% endif %}
+          </div>
+        </li>
+      {% endfor %}
+    {% else %}
+      <li class="text-gray-600">No recent leave requests.</li>
+    {% endif %}
+  </ul>
+</div>
